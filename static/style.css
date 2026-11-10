@@ -1,0 +1,115 @@
+/* Free Job Search — simple, readable layout */
+:root {
+  --ink: #0f172a;
+  --muted: #475569;
+  --line: #dbe3ee;
+  --bg: #f4f7fb;
+  --card: #ffffff;
+  --accent: #0f4c81;
+  --accent-2: #0b3a63;
+  --ok: #166534;
+  --fail: #9f1239;
+  --skip: #6b7280;
+  --shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.06);
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+body { min-height: 100vh; line-height: 1.45; }
+.wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+.top { background: var(--accent); color: #fff; padding: 28px 0 24px; }
+.top h1 { margin: 0 0 6px; font-size: 1.7rem; letter-spacing: -0.02em; font-weight: 700; }
+.tagline { margin: 0; color: #d9e7f5; max-width: 42rem; }
+.search {
+  background: var(--card);
+  margin-top: -18px;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+}
+.row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; align-items: flex-end; }
+label { display: flex; flex-direction: column; gap: 6px; font-size: 0.82rem; font-weight: 600; color: var(--muted); }
+label.grow { flex: 1 1 220px; }
+input[type="text"], select {
+  font: inherit;
+  font-weight: 500;
+  color: var(--ink);
+  padding: 10px 12px;
+  border: 1px solid #c5d0de;
+  border-radius: 8px;
+  background: #fff;
+  width: 100%;
+}
+input[type="text"]:focus, select:focus { outline: 2px solid #93c5fd; border-color: var(--accent); }
+.optional { font-weight: 500; color: #94a3b8; }
+.check { flex-direction: row; align-items: center; gap: 8px; padding-bottom: 10px; white-space: nowrap; }
+.check input { width: auto; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+button, a.button {
+  display: inline-block;
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  text-decoration: none;
+}
+button.primary { background: var(--accent); color: #fff; }
+button.primary:hover { background: var(--accent-2); }
+a.button { background: #e8f0f8; color: var(--accent-2); }
+a.button:hover { background: #d7e5f3; }
+.summary { margin: 28px 0 12px; }
+.summary h2 { margin: 0 0 8px; font-size: 1.2rem; }
+.sources { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.sources li {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #e5edf5;
+  color: var(--muted);
+}
+.sources li.ok { background: #dcfce7; color: var(--ok); }
+.sources li.fail { background: #ffe4e6; color: var(--fail); }
+.sources li.skip { background: #f1f5f9; color: var(--skip); }
+.jobs { list-style: none; margin: 0 0 48px; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.job {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+}
+.job-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.job h3 { margin: 0; font-size: 1.05rem; line-height: 1.3; }
+.meta { margin: 8px 0 0; color: var(--muted); font-size: 0.88rem; display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.snippet { margin: 8px 0 0; color: #334155; font-size: 0.92rem; }
+.apply {
+  flex: 0 0 auto;
+  background: var(--accent);
+  color: #fff !important;
+  text-decoration: none;
+  font-weight: 650;
+  font-size: 0.88rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+.apply:hover { background: var(--accent-2); }
+.empty { color: var(--muted); margin: 16px 0 48px; }
+.foot { color: #64748b; font-size: 0.8rem; padding: 8px 20px 32px; }
+.foot p { margin: 0; }
+@media (max-width: 640px) {
+  .job-head { flex-direction: column; }
+  .apply { align-self: flex-start; }
+}
+
+.tags { margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.tags span {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0f4c81;
+  background: #e8f0f8;
+  border-radius: 999px;
+  padding: 2px 8px;
+}

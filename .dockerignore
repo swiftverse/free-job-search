@@ -1,0 +1,10 @@
+.venv
+__pycache__
+*.pyc
+*.pyo
+.git
+.gitignore
+.python-version
+screenshot.png
+sample_results.pdf
+*.tar.gz

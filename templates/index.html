@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free Job Search</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <h1>Free Job Search</h1>
+      <p class="tagline">Public, no-paywall listings. Enter a role and experience level, then download the snapshot as a PDF.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <form class="search" method="get" action="/" id="search-form">
+      <div class="row">
+        <label class="grow">
+          Job title or profile
+          <input type="text" name="q" value="{{ query }}" required placeholder="e.g. Python developer" autofocus>
+        </label>
+        <label>
+          Experience
+          <select name="level">
+            {% for value, label in levels %}
+            <option value="{{ value }}" {% if level == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </label>
+      </div>
+      <div class="row">
+        <label class="grow">
+          Location <span class="optional">(optional)</span>
+          <input type="text" name="location" value="{{ location }}" placeholder="e.g. Berlin, India, New York">
+        </label>
+        <label class="check">
+          <input type="checkbox" name="remote" value="1" {% if remote_only %}checked{% endif %}>
+          Remote only
+        </label>
+      </div>
+      <div class="actions">
+        <button type="submit" class="primary">Search jobs</button>
+        {% if searched %}
+        <a class="button" href="{{ url_for('pdf', q=query, level=level, location=location, remote='1' if remote_only else None) }}">Download PDF</a>
+        {% endif %}
+      </div>
+    </form>
+
+    {% if searched %}
+    <section class="summary">
+      <h2>{{ jobs|length }} matching job{% if jobs|length != 1 %}s{% endif %}</h2>
+      <ul class="sources">
+        {% for row in status %}
+        <li class="{% if row.skipped %}skip{% elif row.ok %}ok{% else %}fail{% endif %}">
+          {% if row.skipped %}
+            {{ row.name }}: skipped
+          {% elif row.ok %}
+            {{ row.name }}: {{ row.matched }} shown
+            {% if row.count %} ({{ row.count }} fetched){% endif %}
+          {% else %}
+            {{ row.name }}: unavailable
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    {% if jobs %}
+    <ol class="jobs">
+      {% for job in jobs %}
+      <li class="job">
+        <div class="job-head">
+          <h3>{{ job.title }}</h3>
+          <a class="apply" href="{{ job.url }}" target="_blank" rel="noopener noreferrer">Apply</a>
+        </div>
+        <p class="meta">
+          <span>{{ job.company }}</span>
+          <span>{{ job.location }}</span>
+          <span>{{ job.source }}</span>
+          <span>{{ job.date or "Date not listed" }}</span>
+        </p>
+        {% if job.display_tags %}
+        <p class="tags">{% for tag in job.display_tags %}<span>{{ tag }}</span>{% endfor %}</p>
+        {% endif %}
+        {% if job.snippet %}
+        <p class="snippet">{{ job.snippet }}</p>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <p class="empty">No matching jobs were found. Try a broader title, a different experience level, or clear the location filter.</p>
+    {% endif %}
+    {% endif %}
+  </main>
+
+  <footer class="wrap foot">
+    <p>Sources used when available: Remotive, Arbeitnow, RemoteOK, Jobicy, Himalayas, Working Nomads, The Muse. Adzuna is included only if API keys are configured on the server. LinkedIn, Indeed and Naukri are not searched.</p>
+  </footer>
+</body>
+</html>
